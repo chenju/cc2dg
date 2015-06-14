@@ -1,29 +1,4 @@
-/****************************************************************************
- Cocos2d-html5 show case : Moon Warriors
- Copyright (c) 2011-2012 cocos2d-x.org
- Copyright (c) 2013-2014 Chukong Technologies Inc.
- http://www.cocos2d-x.org
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- @Authors:
- Programmer: Shengxiang Chen (陈升想), Dingping Lv (吕定平), Ricardo Quesada
- Effects animation: Hao Wu (吴昊)
- Quality Assurance: Sean Lin (林顺)
- ****************************************************************************/
-
+//
 var SysMenu = cc.Layer.extend({
     _ship:null,
 
@@ -51,7 +26,7 @@ var SysMenu = cc.Layer.extend({
         });
         this.addChild(logo, 10, 1);
 
-        var logoBack = new cc.Sprite(res.logoBack_png);
+        /*var logoBack = new cc.Sprite(res.logoBack_png);
         logoBack.attr({
             anchorX: 0,
             anchorY: 0,
@@ -59,7 +34,7 @@ var SysMenu = cc.Layer.extend({
             y: MW.LOGOY + logo.height,
             scale: MW.SCALE
         });
-        this.addChild(logoBack, 9);
+        this.addChild(logoBack, 9);*/
 
         var singalHeight = MW.menuHeight;
         var singalWidth = MW.menuWidth;
@@ -74,13 +49,13 @@ var SysMenu = cc.Layer.extend({
         var aboutNormal = new cc.Sprite(res.menu_png, cc.rect(singalWidth * 2, 0, singalWidth, singalHeight));
         var aboutSelected = new cc.Sprite(res.menu_png, cc.rect(singalWidth * 2, singalHeight, singalWidth, singalHeight));
         var aboutDisabled = new cc.Sprite(res.menu_png, cc.rect(singalWidth * 2, singalHeight * 2, singalWidth, singalHeight));
-        var flare = new cc.Sprite(res.flare_jpg);
-        this.addChild(flare, 15, 10);
-        flare.visible = false;
+        //var flare = new cc.Sprite(res.flare_jpg);
+        //this.addChild(flare, 15, 10);
+        //flare.visible = false;
         var newGame = new cc.MenuItemSprite(newGameNormal, newGameSelected, newGameDisabled, function () {
-            this.onButtonEffect();
-            //this.onNewGame();
-            flareEffect(flare, this, this.onNewGame);
+            //this.onButtonEffect();
+            this.onNewGame();
+            //flareEffect(flare, this, this.onNewGame);
         }.bind(this));
         var gameSettings = new cc.MenuItemSprite(gameSettingsNormal, gameSettingsSelected, gameSettingsDisabled, this.onSettings, this);
         var about = new cc.MenuItemSprite(aboutNormal, aboutSelected, aboutDisabled, this.onAbout, this);
@@ -89,7 +64,7 @@ var SysMenu = cc.Layer.extend({
         about.scale = MW.SCALE;
 
         var menu = new cc.Menu(newGame, gameSettings, about);
-        menu.alignItemsVerticallyWithPadding(15);
+        menu.alignItemsVerticallyWithPadding(55);
         this.addChild(menu, 1, 2);
         menu.x = winSize.width / 2;
         menu.y = winSize.height / 2 - 140;
@@ -108,22 +83,24 @@ var SysMenu = cc.Layer.extend({
         this._ship.y = 0;
         this._ship.runAction(cc.moveBy(2, cc.p(Math.random() * winSize.width, this._ship.y + winSize.height + 100)));
 
-        if (MW.SOUND) {
+        /*if (MW.SOUND) {
             cc.audioEngine.setMusicVolume(0.7);
             cc.audioEngine.playMusic(cc.sys.os == cc.sys.OS_WP8 || cc.sys.os == cc.sys.OS_WINRT ? res.mainMainMusic_wav : res.mainMainMusic_mp3, true);
-        }
+        }*/
 
         return true;
     },
     onNewGame:function (pSender) {
         //load resources
         cc.LoaderScene.preload(g_maingame, function () {
-            cc.audioEngine.stopMusic();
-            cc.audioEngine.stopAllEffects();
+            
+            //cc.audioEngine.stopMusic();
+            //cc.audioEngine.stopAllEffects();
             var scene = new cc.Scene();
             scene.addChild(new GameLayer());
-            scene.addChild(new GameControlMenu());
-	        cc.director.runScene(new cc.TransitionFade(1.2, scene));
+            //scene.addChild(new GameControlMenu());
+            cc.director.runScene(scene)
+	        //cc.director.runScene(new cc.TransitionFade(1.2, scene));
         }, this);
     },
     onSettings:function (pSender) {
